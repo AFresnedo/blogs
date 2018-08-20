@@ -1,0 +1,12 @@
+(method) (path) (purpose)
+---
+get / home page
+get /articles articles index
+get /authors authors index
+get /articles/:id article show pg
+get /author:id author show page
+post /authors create author
+post /aritcles create article
+get /articles/new create article form
+get /authors/new create author form
+post /comments(?) create commen
