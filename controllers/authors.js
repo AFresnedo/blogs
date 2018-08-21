@@ -17,7 +17,8 @@ router.get('/new', function(req, res) {
 
 router.get('/:id', function(req, res) {
   db.author.findOne({
-    where: { id: req.params.id }
+    where: { id: req.params.id },
+    include: [db.article]
   }).then(function(foundAuthor) {
     res.render('authors/show', { author: foundAuthor });
   }).catch(function(err) {

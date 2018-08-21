@@ -16,14 +16,15 @@ router.get('/new', function(req, res) {
 });
 
 router.get('/:id', function(req, res) {
+  // get some more info from this query, in this case name of author
+  // aka "join"
+  // NOTICE: this functionality is dependent on associations!
   db.article.findOne({
     where: { id: req.params.id },
-    // get some more info from this query, in this case name of author
-    // aka "join"
     include: [db.author]
   }).then(function(foundArticle) {
     console.log('article is', foundArticle);
-    res.render('articles/show', { article: foundArticle});
+    res.render('articles/show', { article: foundArticle });
   }).catch(function(err) {
     console.log(err);
     res.send('could not load aritcle page');
@@ -31,13 +32,18 @@ router.get('/:id', function(req, res) {
 });
 
 router.post('/', function(req, res) {
-  console.log(req.body);
-  db.article.create(req.body).then(function(createdArticle){
-    res.redirect('/articles/' + createdArticle.id);
-  }).catch(function(err) {
-    console.log(err);
-    res.send('article create failed');
-  });
+  if (req.body.authorId !== 0) {
+    console.log(req.body);
+    db.article.create(req.body).then(function(createdArticle){
+      res.redirect('/articles/' + createdArticle.id);
+    }).catch(function(err) {
+      console.log(err);
+      res.send('article create failed');
+    });
+  }
+  else {
+    res.redirect('/articles/new');
+  }
 });
 
 module.exports = router; // eslint-disable-line
