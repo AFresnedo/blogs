@@ -2,6 +2,17 @@
 <form method="POST" action="/articles">
   <!-- remember that names should match DB to make controller code cleaner -->
   <input type="text" name="title">
+  <!-- cool dropdown for selecting author -->
+  <select name="authorId">
+    <option value="0">Choose</option>
+    <% if (authors) { %>
+      <% authors.forEach(function(a) { %>
+        <option value="<%= a.id %>">
+        <%= a.name %>
+        </option>
+      <% }); %>
+    <% } %>
+  </select>
   <textarea name="content"></textarea>
   <input type="submit" value="Create">
 </form>
