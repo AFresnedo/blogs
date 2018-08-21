@@ -8,7 +8,7 @@ module.exports = (sequelize, DataTypes) => { // eslint-disable-line
   }, {});
   author.associate = function(models) {
     models.author.hasMany(models.article);
-    models.author.hasMany(models.comments);
+    models.author.hasMany(models.comment);
   };
   return author;
 };

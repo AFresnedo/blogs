@@ -15,5 +15,8 @@
     "express-ejs-layouts": "^2.5.0",
     "pg": "^7.4.3",
     "sequelize": "^4.38.0"
+  },
+  "devDependencies": {
+    "eslint-config-jquery": "^1.0.1"
   }
 }
