@@ -15,10 +15,16 @@ app.use(bodyParser.urlencoded({extended: false}));
 // include controllers (thats why they export their router)
 app.use('/articles', require('./controllers/articles'));
 app.use('/authors', require('./controllers/authors'));
+app.use('/comments', require('./controllers/comments'));
 
 // define routes
 app.get('/', function(req, res){
   res.render('home');
+});
+
+// catch all page for 404s
+app.get('*', function(req, res) {
+  res.send('standard 404 sent');
 });
 
 // link never listens

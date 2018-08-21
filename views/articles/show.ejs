@@ -8,3 +8,17 @@
 <p>
 <%= article.content %>
 </p>
+
+<!-- note: naked div here because div container wrap body in layout -->
+<!-- if that's the case, the divs inside of any layout body cannot jump out
+  themselves -->
+<div>
+  <h3>what are your thoughts?</h3>
+  <form method="POST" action"/comments">
+    <div class="form-group">
+      <label>Comment:</label>
+      <textarea name="content"></textarea>
+    </div>
+    <input type="submit" value="Comment" class="btn btn-warning">
+  </form>
+</div>

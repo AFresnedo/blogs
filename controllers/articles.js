@@ -2,10 +2,6 @@ var express = require('express'); // eslint-disable-line
 var router = express.Router();
 var db = require('../models');
 
-router.get('/', function(req, res){
-  res.send('articles here!');
-});
-
 router.get('/new', function(req, res) {
   db.author.findAll().then(function(allAuthors) {
     res.render('articles/new', { authors: allAuthors });
@@ -21,13 +17,29 @@ router.get('/:id', function(req, res) {
   // NOTICE: this functionality is dependent on associations!
   db.article.findOne({
     where: { id: req.params.id },
-    include: [db.author]
+    include: [db.author, db.comment]
   }).then(function(foundArticle) {
-    console.log('article is', foundArticle);
-    res.render('articles/show', { article: foundArticle });
+    // nested query (see how it's in "then"?)
+    // it is nested because we needed the results from the include to do this
+    db.author.findAll().then(function(allAuthors) {
+      res.render('articles/show', { article: foundArticle, authors: allAuthors
+      });
+    }).catch(function(err) {
+      console.log(err);
+      res.render('error');
+    });
   }).catch(function(err) {
     console.log(err);
     res.send('could not load aritcle page');
+  });
+});
+
+router.get('/', function(req, res) {
+  db.article.findAll().then(function(articlesFound) {
+    res.render('articles/index', { articles: articlesFound });
+  }).catch(function(err) {
+    console.log(err);
+    res.send('excuse me sir, there has been a problem loading this page');
   });
 });
 
