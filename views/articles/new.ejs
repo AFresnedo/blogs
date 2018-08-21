@@ -3,7 +3,7 @@
   <!-- remember that names should match DB to make controller code cleaner -->
   <input type="text" name="title">
   <!-- cool dropdown for selecting author -->
-  <select name="authorId">
+  <select name="authorId" required>
     <option value="0">Choose</option>
     <% if (authors) { %>
       <% authors.forEach(function(a) { %>
