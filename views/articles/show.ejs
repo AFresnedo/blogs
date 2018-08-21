@@ -14,11 +14,9 @@
   themselves -->
 <div>
   <h3>what are your thoughts?</h3>
-  <form method="POST" action"/comments">
-    <div class="form-group">
-      <label>Comment:</label>
-      <textarea name="content"></textarea>
-    </div>
+  <form method="POST" action="/comments">
+    <textarea name="content"></textarea>
     <input type="submit" value="Comment" class="btn btn-warning">
+    <input name="articleId" value="<%= article.id %>">
   </form>
 </div>
