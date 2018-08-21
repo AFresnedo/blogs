@@ -15,6 +15,21 @@ router.get('/new', function(req, res) {
   });
 });
 
+router.get('/:id', function(req, res) {
+  db.article.findOne({
+    where: { id: req.params.id },
+    // get some more info from this query, in this case name of author
+    // aka "join"
+    include: [db.author]
+  }).then(function(foundArticle) {
+    console.log('article is', foundArticle);
+    res.render('articles/show', { article: foundArticle});
+  }).catch(function(err) {
+    console.log(err);
+    res.send('could not load aritcle page');
+  });
+});
+
 router.post('/', function(req, res) {
   console.log(req.body);
   db.article.create(req.body).then(function(createdArticle){
