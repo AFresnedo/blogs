@@ -16,7 +16,13 @@ router.get('/new', function(req, res) {
 });
 
 router.get('/:id', function(req, res) {
-  res.send('you reached this author\'s profile!');
+  db.author.findOne({
+    where: { id: req.params.id }
+  }).then(function(foundAuthor) {
+    res.render('authors/show', { author: foundAuthor });
+  }).catch(function(err) {
+    res.send('can\t find that author!');
+  });
 });
 
 router.post('/', function(req, res) {
