@@ -1,3 +1,4 @@
+var async = require('async');
 var express = require('express');
 var router = express.Router();
 var db = require('../models');
@@ -28,7 +29,31 @@ router.get('/:id', function(req, res) {
 });
 
 router.delete('/:id', function(req, res) {
-  res.send('delete recieved');
+  db.tag.findOne({
+    where: { id: req.params.id },
+    include: [db.article]
+  }).then(function(foundTag) {
+    // note from above, "articles" is an array of related from db.article
+    // make sure all assoc are deleted and only then delete tag (async)
+    async.forEach(foundTag.articles, function(a, done){
+      // runs for each article in foundTag.articles
+      // each article is "a" as specified above
+      // remove is the inverse of add! it removes the row in the join
+      foundTag.removeArticle(a).then(function() {
+        // done after remove finished (promise fulfilled)
+        done();
+      });
+    }, function(){
+      // runs after all "done"s from above
+      db.tag.destroy({
+        where: { id: req.params.id }
+      }).then(function() {
+        res.send('tag and references to it deleted');
+      });
+    });
+  }).catch(function(err) {
+    res.status(500).send('could not delete tag');
+  });
 });
 
 module.exports = router;
