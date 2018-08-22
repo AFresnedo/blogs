@@ -5,6 +5,18 @@
 <!-- why isnt this article.author.name?? -->
 <h4>By <%= article.author.name %></h4>
 
+<h4>Tags</h4>
+<% if (article.tags && article.tags.length > 0) { %>
+  <% article.tags.forEach(function(t) { %>
+    <a href="/tags/<%= t.id %>">
+      #<%= t.name %>
+    </a>
+  <% }); %>
+<% } else { %>
+<p>No Tags.</p>
+<% } %>
+
+<h4>Content</h4>
 <p>
 <%= article.content %>
 </p>
