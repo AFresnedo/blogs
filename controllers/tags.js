@@ -11,6 +11,10 @@ router.get('/', function(req, res) {
   });
 });
 
+router.get('/edit/:id', function(req, res) {
+  res.send('edit tag show page');
+});
+
 router.get('/:id', function(req, res) {
   db.tag.find({
     where: { id: req.params.id },
@@ -21,6 +25,10 @@ router.get('/:id', function(req, res) {
     console.log(err);
     res.send('could not load show page for tag');
   });
+});
+
+router.delete('/:id', function(req, res) {
+  res.send('delete recieved');
 });
 
 module.exports = router;
