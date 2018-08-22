@@ -13,7 +13,12 @@ router.get('/', function(req, res) {
 });
 
 router.get('/edit/:id', function(req, res) {
-  res.send('edit tag show page');
+  db.tag.findById(req.params.id).then(function(foundTag) {
+    res.render('tags/edit', { tag: foundTag });
+  }).catch(function(err) {
+    console.log('error for show edit:', err);
+    res.send('error going to tag edit');
+  });
 });
 
 router.get('/:id', function(req, res) {
@@ -26,6 +31,10 @@ router.get('/:id', function(req, res) {
     console.log(err);
     res.send('could not load show page for tag');
   });
+});
+
+router.put('/:id', function(req, res) {
+  res.send(req.body);
 });
 
 router.delete('/:id', function(req, res) {
